@@ -420,4 +420,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     return 1;
   }
 
+  @Override public S withThreadDump() {
+    Failures.instance().printThreaddump();
+	return myself;
+  }
 }

@@ -251,4 +251,10 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   @Override
   @Deprecated
   boolean equals(Object obj);
+
+  /**
+   *
+   * @return
+   */
+  S withThreadDump();
 }

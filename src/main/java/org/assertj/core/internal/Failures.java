@@ -23,6 +23,9 @@ import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.util.Throwables;
 import org.assertj.core.util.VisibleForTesting;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
 
 /**
  * Failure actions.
@@ -43,6 +46,11 @@ public class Failures {
   }
 
   /**
+   * flag indicating that a in case of a failure a threaddump is printed out.
+   */
+  private boolean printThreaddump;
+
+  /**
    * flag indicating whether or not we remove elements related to AssertJ from assertion error stack trace.
    */
   private boolean removeAssertJRelatedElementsFromStackTrace = true;
@@ -53,6 +61,13 @@ public class Failures {
    */
   public void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
     this.removeAssertJRelatedElementsFromStackTrace = removeAssertJRelatedElementsFromStackTrace;
+  }
+
+  /**
+   * Sets whether we a threaddump is printed out.
+   */
+  public void printThreaddump() {
+	this.printThreaddump = true;
   }
 
   @VisibleForTesting
@@ -71,6 +86,11 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, AssertionErrorFactory factory) {
+
+    if (printThreaddump){
+      System.err.println(generateThreaddump());
+    }
+
     AssertionError error = failureIfErrorMessageIsOverriden(info);
     if (error != null) return error;
     return factory.newAssertionError(info.description(), info.representation());
@@ -90,6 +110,11 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory message) {
+
+    if (printThreaddump){
+	  System.err.println(generateThreaddump());
+    }
+
     AssertionError error = failureIfErrorMessageIsOverriden(info);
     if (error != null) return error;
     AssertionError assertionError = new AssertionError(message.create(info.description(), info.representation()));
@@ -112,6 +137,11 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(String message) {
+
+    if (printThreaddump){
+	  System.err.println(generateThreaddump());
+    }
+
     AssertionError assertionError = new AssertionError(message);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     return assertionError;
@@ -156,4 +186,27 @@ org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
     }
   }
 
+  private String generateThreaddump(){
+    StringBuilder dump = new StringBuilder();
+    ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+    ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(true, true);
+
+    for (ThreadInfo threadInfo : threadInfos) {
+      dump.append('"');
+      dump.append(threadInfo.getThreadName());
+      dump.append("\n ");
+      Thread.State threadState = threadInfo.getThreadState();
+      dump.append("\n java.lang.Thread.State: ");
+      dump.append(threadState);
+
+      StackTraceElement[] stackTrace = threadInfo.getStackTrace();
+      for (StackTraceElement stackTraceElement : stackTrace) {
+        dump.append("\n      at");
+        dump.append(stackTraceElement);
+      }
+      dump.append("\n\n");
+    }
+
+    return dump.toString();
+  }
 }
