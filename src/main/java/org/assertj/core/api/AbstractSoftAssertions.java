@@ -16,14 +16,13 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-
-import net.sf.cglib.proxy.Enhancer;
 
 public abstract class AbstractSoftAssertions {
 
@@ -35,10 +34,12 @@ public abstract class AbstractSoftAssertions {
 
   @SuppressWarnings("unchecked")
   protected <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
-	Enhancer enhancer = new Enhancer();
+	/*Enhancer enhancer = new Enhancer();
 	enhancer.setSuperclass(assertClass);
 	enhancer.setCallback(collector);
-	return (V) enhancer.create(array(actualClass), array(actual));
+	return (V) enhancer.create(array(actualClass), array(actual));*/
+
+    return (V) Proxy.newProxyInstance(assertClass.getClassLoader(), new Class[]{assertClass}, collector);
   }
 
   /**
