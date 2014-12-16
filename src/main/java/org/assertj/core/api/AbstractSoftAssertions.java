@@ -12,21 +12,24 @@
  */
 package org.assertj.core.api;
 
+import net.sf.cglib.proxy.Enhancer;
+
 import static org.assertj.core.util.Arrays.array;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 public abstract class AbstractSoftAssertions {
 
   final ErrorCollector collector;
+
+  final List<Throwable> errors = new ArrayList<Throwable>();
 
   protected AbstractSoftAssertions() {
 	this.collector = new ErrorCollector();
@@ -38,8 +41,23 @@ public abstract class AbstractSoftAssertions {
 	enhancer.setSuperclass(assertClass);
 	enhancer.setCallback(collector);
 	return (V) enhancer.create(array(actualClass), array(actual));*/
+    return null;
+  }
 
-    return (V) Proxy.newProxyInstance(assertClass.getClassLoader(), new Class[]{assertClass}, collector);
+  @SuppressWarnings("unchecked")
+  protected <V> V jdkProxy(Class<V> interfaceClass, final Object objectToProxy) {
+
+	return (V) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass}, new InvocationHandler() {
+	  @Override public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+	    Object result = null;
+	     try {
+	       result = method.invoke(objectToProxy, args);
+	    } catch (AssertionError e) {
+		  errors.add(e);
+	    }
+	    return result;
+	  }
+	});
   }
 
   /**
@@ -295,8 +313,8 @@ public abstract class AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  public <T> ListAssert<T> assertThat(List<T> actual) {
-	return proxy(ListAssert.class, List.class, actual);
+  public <T> IListAssert<T> assertThat(List<T> actual) {
+    return jdkProxy(IListAssert.class, new ListAssert<T>(actual));
   }
 
   /**
