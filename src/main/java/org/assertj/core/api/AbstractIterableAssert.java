@@ -56,7 +56,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Mateusz Haligowski
  */
 public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S, A, T>, A extends Iterable<T>, T>
-    extends AbstractAssert<S, A> implements ObjectEnumerableAssert<S, T> {
+    extends AbstractAssert<S, A> implements IIterableAssert<S, A, T> {
 
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
@@ -161,7 +161,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
-  public S isSubsetOf(Iterable<? extends T> values) {
+  @Override public S isSubsetOf(Iterable<? extends T> values) {
 	iterables.assertIsSubsetOf(info, actual, values);
 	return myself;
   }
@@ -213,7 +213,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains some elements of the given {@link Iterable}.
    */
-  public S doesNotContainAnyElementsOf(Iterable<? extends T> iterable) {
+  @Override public S doesNotContainAnyElementsOf(Iterable<? extends T> iterable) {
 	iterables.assertDoesNotContainAnyElementsOf(info, actual, iterable);
 	return myself;
   }
@@ -515,7 +515,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
    *           in one of the initial Iterable's element.
    */
-  public ListAssert<Object> extracting(String propertyOrField) {
+  @Override public ListAssert<Object> extracting(String propertyOrField) {
 	List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
 	return new ListAssert<Object>(values);
   }
@@ -563,7 +563,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
    *           return void, or method accepts arguments.
    */
-  public ListAssert<Object> extractingResultOf(String method) {
+  @Override public ListAssert<Object> extractingResultOf(String method) {
 	List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
 	return new ListAssert<Object>(values);
   }
@@ -612,7 +612,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
    *           return void or method accepts arguments.
    */
-  public <P> ListAssert<P> extractingResultOf(String method, Class<P> extractedType) {
+  @Override public <P> ListAssert<P> extractingResultOf(String method, Class<P> extractedType) {
 	@SuppressWarnings("unchecked")
 	List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
 	return new ListAssert<P>(values);
@@ -670,7 +670,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
    *           in one of the initial Iterable's element.
    */
-  public <P> ListAssert<P> extracting(String propertyOrField, Class<P> extractingType) {
+  @Override public <P> ListAssert<P> extracting(String propertyOrField, Class<P> extractingType) {
 	@SuppressWarnings("unchecked")
 	List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
 	return new ListAssert<P>(values);
@@ -735,7 +735,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @throws IntrospectionError if one of the given name does not match a field or property (or field exists but is not
    *           public) in one of the initial Iterable's element.
    */
-  public ListAssert<Tuple> extracting(String... propertiesOrFields) {
+  @Override public ListAssert<Tuple> extracting(String... propertiesOrFields) {
 	return extracting(byName(propertiesOrFields));
   }
 
@@ -783,7 +783,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    */
-  public <V> ListAssert<V> extracting(Extractor<? super T, V> extractor) {
+  @Override public <V> ListAssert<V> extracting(Extractor<? super T, V> extractor) {
 	List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
 	return new ListAssert<V>(values);
   }
@@ -828,7 +828,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @param extractor the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    */
-  public <V> ListAssert<V> flatExtracting(Extractor<? super T, ? extends Collection<V>> extractor) {
+  @Override public <V> ListAssert<V> flatExtracting(Extractor<? super T, ? extends Collection<V>> extractor) {
 	List<V> result = newArrayList();
 	final List<? extends Collection<V>> extractedValues = FieldsOrPropertiesExtractor.extract(actual, extractor);
 
@@ -858,7 +858,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *
    * @param iterable the given {@code Iterable} we will get elements from.
    */
-  public S containsExactlyElementsOf(Iterable<? extends T> iterable) {
+  @Override public S containsExactlyElementsOf(Iterable<? extends T> iterable) {
 	return containsExactly(toArray(iterable));
   }
 
@@ -883,7 +883,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
    */
-  public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
+  @Override public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
 	return containsOnly(toArray(iterable));
   }
 
@@ -911,7 +911,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
    *           {@code Iterable}
    */
-  public S hasSameElementsAs(Iterable<? extends T> iterable) {
+  @Override public S hasSameElementsAs(Iterable<? extends T> iterable) {
 	return containsOnly(toArray(iterable));
   }
 
@@ -942,7 +942,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *
    * @return {@code this} assertion object.
    */
-  public S usingFieldByFieldElementComparator() {
+  @Override public S usingFieldByFieldElementComparator() {
 	return usingElementComparator(new FieldByFieldComparator());
   }
 
@@ -973,7 +973,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *
    * @return {@code this} assertion object.
    */
-  public S usingElementComparatorOnFields(String... fields) {
+  @Override public S usingElementComparatorOnFields(String... fields) {
 	return usingElementComparator(new OnFieldsComparator(fields));
   }
 
@@ -1009,7 +1009,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *
    * @return {@code this} assertion object.
    */
-  public S usingElementComparatorIgnoringFields(String... fields) {
+  @Override public S usingElementComparatorIgnoringFields(String... fields) {
 	return usingElementComparator(new IgnoringFieldsComparator(fields));
   }
 

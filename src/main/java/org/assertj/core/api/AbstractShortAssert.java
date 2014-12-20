@@ -31,7 +31,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Nicolas François
  */
 public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> extends AbstractComparableAssert<S, Short>
-		implements NumberAssert<S, Short> {
+		implements IShortAssert<S> {
 
 	@VisibleForTesting
 	Shorts shorts = Shorts.instance();
@@ -48,7 +48,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is not equal to the given one.
 	 */
-	public S isEqualTo(short expected) {
+	@Override public S isEqualTo(short expected) {
 		shorts.assertEqual(info, actual, expected);
 		return myself;
 	}
@@ -61,7 +61,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to the given one.
 	 */
-	public S isNotEqualTo(short other) {
+	@Override public S isNotEqualTo(short other) {
 		shorts.assertNotEqual(info, actual, other);
 		return myself;
 	}
@@ -116,7 +116,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to or greater than the given one.
 	 */
-	public S isLessThan(short other) {
+	@Override public S isLessThan(short other) {
 		shorts.assertLessThan(info, actual, other);
 		return myself;
 	}
@@ -129,7 +129,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is greater than the given one.
 	 */
-	public S isLessThanOrEqualTo(short other) {
+	@Override public S isLessThanOrEqualTo(short other) {
 		shorts.assertLessThanOrEqualTo(info, actual, other);
 		return myself;
 	}
@@ -142,7 +142,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to or less than the given one.
 	 */
-	public S isGreaterThan(short other) {
+	@Override public S isGreaterThan(short other) {
 		shorts.assertGreaterThan(info, actual, other);
 		return myself;
 	}
@@ -155,7 +155,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is less than the given one.
 	 */
-	public S isGreaterThanOrEqualTo(short other) {
+	@Override public S isGreaterThanOrEqualTo(short other) {
 		shorts.assertGreaterThanOrEqualTo(info, actual, other);
 		return myself;
 	}

@@ -59,4 +59,6 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * @throws AssertionError if the actual value is less than the given one.
    */
   S isGreaterThanOrEqualTo(A other);
+
+  S inHexadecimal();
 }

@@ -34,7 +34,7 @@ import java.nio.charset.Charset;
  * @author Mikhail Mazursky
  * @author Jean-Christophe Gay
  */
-public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extends AbstractAssert<S, File> {
+public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extends AbstractAssert<S, File> implements IFileAssert<S>{
 
   @VisibleForTesting
   Files files = Files.instance();
@@ -53,7 +53,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} does not exist.
    */
-  public S exists() {
+  @Override public S exists() {
     files.assertExists(info, actual);
     return myself;
   }
@@ -65,7 +65,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} exists.
    */
-  public S doesNotExist() {
+  @Override public S doesNotExist() {
     files.assertDoesNotExist(info, actual);
     return myself;
   }
@@ -77,7 +77,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
    */
-  public S isFile() {
+  @Override public S isFile() {
     files.assertIsFile(info, actual);
     return myself;
   }
@@ -89,7 +89,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
    */
-  public S isDirectory() {
+  @Override public S isDirectory() {
     files.assertIsDirectory(info, actual);
     return myself;
   }
@@ -101,7 +101,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an absolute path.
    */
-  public S isAbsolute() {
+  @Override public S isAbsolute() {
     files.assertIsAbsolute(info, actual);
     return myself;
   }
@@ -113,7 +113,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not a relative path.
    */
-  public S isRelative() {
+  @Override public S isRelative() {
     files.assertIsRelative(info, actual);
     return myself;
   }
@@ -130,7 +130,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws FilesException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    */
-  public S hasContentEqualTo(File expected) {
+  @Override public S hasContentEqualTo(File expected) {
     files.assertEqualContent(info, actual, expected);
     return myself;
   }
@@ -146,7 +146,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws FilesException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
    */
-  public S hasBinaryContent(byte[] expected) {
+  @Override public S hasBinaryContent(byte[] expected) {
     files.assertHasBinaryContent(info, actual, expected);
     return myself;
   }
@@ -158,7 +158,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws IllegalArgumentException if the given encoding is not supported on this platform.
    */
-  public S usingCharset(String charsetName) {
+  @Override public S usingCharset(String charsetName) {
     if (!Charset.isSupported(charsetName))
       throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
     return usingCharset(Charset.forName(charsetName));
@@ -171,7 +171,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given charset is {@code null}.
    */
-  public S usingCharset(Charset charset) {
+  @Override public S usingCharset(Charset charset) {
     if (charset == null)
       throw new NullPointerException("The charset should not be null");
     this.charset = charset;
@@ -192,7 +192,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws FilesException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
    */
-  public S hasContent(String expected) {
+  @Override public S hasContent(String expected) {
     files.assertHasContent(info, actual, expected, charset);
     return myself;
   }
@@ -205,7 +205,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} can not be modified by the application.
    */
-  public S canWrite() {
+  @Override public S canWrite() {
     files.assertCanWrite(info, actual);
     return myself;
   }
@@ -218,7 +218,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} can not be read by the application.
    */
-  public S canRead() {
+  @Override public S canRead() {
     files.assertCanRead(info, actual);
     return myself;
   }
@@ -250,7 +250,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * @see java.io.File#getParentFile() parent definition.
    */
-  public S hasParent(File expected) {
+  @Override public S hasParent(File expected) {
     files.assertHasParent(info, actual, expected);
     return myself;
   }
@@ -273,7 +273,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * </p>
    */
-  public S hasParent(String expected) {
+  @Override public S hasParent(String expected) {
     files.assertHasParent(info, actual, expected != null ? new File(expected) : null);
     return myself;
   }
@@ -305,7 +305,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * @see <a href="http://en.wikipedia.org/wiki/Filename_extension">Filename extension</a>
    */
-  public S hasExtension(String expected) {
+  @Override public S hasExtension(String expected) {
     files.assertHasExtension(info, actual, expected);
     return myself;
   }
@@ -339,7 +339,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * @see java.io.File#getName() name definition.
    */
-  public S hasName(String expected) {
+  @Override public S hasName(String expected) {
     files.assertHasName(info, actual, expected);
     return myself;
   }
@@ -368,7 +368,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} has a parent.
    */
-  public S hasNoParent() {
+  @Override public S hasNoParent() {
     files.assertHasNoParent(info, actual);
     return myself;
   }

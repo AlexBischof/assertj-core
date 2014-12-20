@@ -33,7 +33,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<S>> extends
-    AbstractComparableAssert<S, Character> {
+    AbstractComparableAssert<S, Character> implements ICharacterAssert<S> {
 
   @VisibleForTesting
   Characters characters = Characters.instance();
@@ -50,6 +50,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
+  @Override
   public S isEqualTo(char expected) {
     characters.assertEqual(info, actual, expected);
     return myself;
@@ -63,7 +64,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  public S isNotEqualTo(char other) {
+  @Override public S isNotEqualTo(char other) {
     characters.assertNotEqual(info, actual, other);
     return myself;
   }
@@ -90,7 +91,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
-  public S isLessThan(char other) {
+  @Override public S isLessThan(char other) {
     characters.assertLessThan(info, actual, other);
     return myself;
   }
@@ -116,7 +117,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
-  public S isLessThanOrEqualTo(char other) {
+  @Override public S isLessThanOrEqualTo(char other) {
     characters.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
@@ -143,7 +144,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
-  public S isGreaterThan(char other) {
+  @Override public S isGreaterThan(char other) {
     characters.assertGreaterThan(info, actual, other);
     return myself;
   }
@@ -174,7 +175,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    *
    * @return {@code this} assertion object.
    */
-  public S inUnicode() {
+  @Override public S inUnicode() {
     info.useUnicodeRepresentation();
     return myself;
   }
@@ -200,7 +201,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
-  public S isGreaterThanOrEqualTo(char other) {
+  @Override public S isGreaterThanOrEqualTo(char other) {
     characters.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
@@ -225,7 +226,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * @throws AssertionError if the actual value is not a lowercase character.
    */
 
-  public S isLowerCase() {
+  @Override public S isLowerCase() {
     characters.assertLowerCase(info, actual);
     return myself;
   }
@@ -249,7 +250,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not a uppercase character.
    */
-  public S isUpperCase() {
+  @Override public S isUpperCase() {
     characters.assertUpperCase(info, actual);
     return myself;
   }

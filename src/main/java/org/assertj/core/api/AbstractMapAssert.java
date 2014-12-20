@@ -39,7 +39,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Nicolas François
  */
 public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>, A extends Map<K, V>, K, V>
-    extends AbstractAssert<S, A> implements EnumerableAssert<S, MapEntry> {
+    extends AbstractAssert<S, A> implements IMapAssert<S,A, K, V>{
 
   @VisibleForTesting
   Maps maps = Maps.instance();
@@ -107,7 +107,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}
    * @throws AssertionError if the actual map and the given {@code Map} don't have the same size
    */
-  public S hasSameSizeAs(Map<?, ?> other) {
+  @Override public S hasSameSizeAs(Map<?, ?> other) {
 	maps.assertHasSameSizeAs(info, actual, other);
 	return myself;
   }
@@ -131,7 +131,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries.
    */
-  public S contains(MapEntry... entries) {
+  @Override public S contains(MapEntry... entries) {
 	maps.assertContains(info, actual, entries);
 	return myself;
   }
@@ -156,7 +156,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries.
    */
-  public S containsEntry(K key, V value) {
+  @Override public S containsEntry(K key, V value) {
 	maps.assertContains(info, actual, array(entry(key, value)));
 	return myself;
   }
@@ -178,7 +178,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains any of the given entries.
    */
-  public S doesNotContain(MapEntry... entries) {
+  @Override public S doesNotContain(MapEntry... entries) {
 	maps.assertDoesNotContain(info, actual, entries);
 	return myself;
   }
@@ -202,7 +202,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains any of the given entries.
    */
-  public S doesNotContainEntry(K key, V value) {
+  @Override public S doesNotContainEntry(K key, V value) {
 	maps.assertDoesNotContain(info, actual, array(entry(key, value)));
 	return myself;
   }
@@ -214,7 +214,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given key.
    */
-  @SuppressWarnings("unchecked")
+  @Override @SuppressWarnings("unchecked")
   public S containsKey(K key) {
 	return containsKeys(key);
   }
@@ -227,7 +227,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map does not contain the given key.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
-  public S containsKeys(@SuppressWarnings("unchecked") K... keys) {
+  @Override public S containsKeys(@SuppressWarnings("unchecked") K... keys) {
 	maps.assertContainsKeys(info, actual, keys);
 	return myself;
   }
@@ -239,7 +239,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given key.
    */
-  public S doesNotContainKey(K key) {
+  @Override public S doesNotContainKey(K key) {
 	maps.assertDoesNotContainKey(info, actual, key);
 	return myself;
   }
@@ -266,7 +266,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    *           of the given keys, or the actual map contains more entries than the given ones.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
-  public S containsOnlyKeys(@SuppressWarnings("unchecked") K... keys) {
+  @Override public S containsOnlyKeys(@SuppressWarnings("unchecked") K... keys) {
 	maps.assertContainsOnlyKeys(info, actual, keys);
 	return myself;
   }
@@ -284,7 +284,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given value.
    */
-  public S containsValue(V value) {
+  @Override public S containsValue(V value) {
 	maps.assertContainsValue(info, actual, value);
 	return myself;
   }
@@ -302,7 +302,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given value.
    */
-  public S doesNotContainValue(V value) {
+  @Override public S doesNotContainValue(V value) {
 	maps.assertDoesNotContainValue(info, actual, value);
 	return myself;
   }
@@ -330,7 +330,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
    *           none of the given entries, or the actual map contains more entries than the given ones.
    */
-  public S containsOnly(MapEntry... entries) {
+  @Override public S containsOnly(MapEntry... entries) {
 	maps.assertContainsOnly(info, actual, entries);
 	return myself;
   }
@@ -361,7 +361,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    *           contains some or none of the given entries, or the actual map contains more entries than the given ones
    *           or entries are the same but the order is not.
    */
-  public S containsExactly(MapEntry... entries) {
+  @Override public S containsExactly(MapEntry... entries) {
 	maps.assertContainsExactly(info, actual, entries);
 	return myself;
   }

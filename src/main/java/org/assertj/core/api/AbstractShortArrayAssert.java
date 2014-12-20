@@ -20,7 +20,7 @@ import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAssert<S>>
-  extends AbstractArrayAssert<S, short[], Short> {
+  extends AbstractArrayAssert<S, short[], Short> implements IShortArrayAssert<S> {
 
   @VisibleForTesting
   protected ShortArrays arrays = ShortArrays.instance();
@@ -72,7 +72,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(short... values) {
+  @Override public S contains(short... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -88,7 +88,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(short... values) {
+  @Override public S containsOnly(short... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -116,7 +116,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  public S containsOnlyOnce(short... values) {
+  @Override public S containsOnlyOnce(short... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -143,7 +143,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(short... sequence) {
+  @Override public S containsSequence(short... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -170,7 +170,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(short... subsequence) {
+  @Override public S containsSubsequence(short... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -187,7 +187,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(short value, Index index) {
+  @Override public S contains(short value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
@@ -202,7 +202,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(short... values) {
+  @Override public S doesNotContain(short... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -217,7 +217,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(short value, Index index) {
+  @Override public S doesNotContain(short value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
@@ -229,7 +229,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates() {
+  @Override public S doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
@@ -246,7 +246,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public S startsWith(short... sequence) {
+  @Override public S startsWith(short... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -263,7 +263,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(short... sequence) {
+  @Override public S endsWith(short... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
@@ -319,7 +319,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  public S containsExactly(short... values) {
+  @Override public S containsExactly(short... values) {
     objects.assertEqual(info, actual, values);
     return myself;
   }

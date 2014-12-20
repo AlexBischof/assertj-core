@@ -35,7 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAssert<S>> extends
-    AbstractUnevenComparableAssert<S, BigDecimal> implements NumberAssert<S, BigDecimal> {
+    AbstractUnevenComparableAssert<S, BigDecimal> implements NumberAssert<S, BigDecimal>, IBigDecimalAssert<S> {
 
   @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();

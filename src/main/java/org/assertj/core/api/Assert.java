@@ -112,6 +112,8 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    */
   S isNotIn(Iterable<?> values);
 
+  S overridingErrorMessage(String newErrorMessage, Object... args);
+
   /**
    * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
    * <p>

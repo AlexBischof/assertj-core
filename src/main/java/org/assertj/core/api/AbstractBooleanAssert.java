@@ -30,7 +30,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Mikhail Mazursky
  */
-public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> extends AbstractAssert<S, Boolean> {
+public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> extends AbstractAssert<S, Boolean> implements IBooleanAssert<S> {
 
   @VisibleForTesting
   Booleans booleans = Booleans.instance();
@@ -46,6 +46,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not {@code true}.
    */
+  @Override
   public S isTrue() {
     return isEqualTo(true);
   }
@@ -57,6 +58,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not {@code false}.
    */
+  @Override
   public S isFalse() {
     return isEqualTo(false);
   }
@@ -69,6 +71,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
+  @Override
   public S isEqualTo(boolean expected) {
     booleans.assertEqual(info, actual, expected);
     return myself;
@@ -82,6 +85,7 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
+  @Override
   public S isNotEqualTo(boolean other) {
     booleans.assertNotEqual(info, actual, other);
     return myself;

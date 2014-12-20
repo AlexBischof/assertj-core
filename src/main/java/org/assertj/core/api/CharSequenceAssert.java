@@ -20,7 +20,7 @@ package org.assertj.core.api;
  * 
  * @author Mikhail Mazursky
  */
-public class CharSequenceAssert extends AbstractCharSequenceAssert<CharSequenceAssert, CharSequence> {
+public class CharSequenceAssert extends AbstractCharSequenceAssert<CharSequenceAssert, CharSequence> implements ICharSequenceAssert{
 
   protected CharSequenceAssert(CharSequence actual) {
     super(actual, CharSequenceAssert.class);

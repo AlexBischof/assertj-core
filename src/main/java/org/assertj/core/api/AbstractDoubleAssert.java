@@ -33,7 +33,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> extends AbstractComparableAssert<S, Double> implements FloatingPointNumberAssert<S, Double> {
+public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> extends AbstractComparableAssert<S, Double> implements IDoubleAssert<S> {
 
 	@VisibleForTesting
 	Doubles doubles = Doubles.instance();
@@ -126,7 +126,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   // duplicate javadoc of isCloseTo(double other, Offset<Double> offset but can't define it in super class
-  public S isCloseTo(final double other, final Offset<Double> offset) {
+  @Override public S isCloseTo(final double other, final Offset<Double> offset) {
     doubles.assertIsCloseTo(info, actual, other, offset);
     return myself;
   }
@@ -145,7 +145,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is not equal to the given one.
 	 */
-	public S isEqualTo(double expected) {
+	@Override public S isEqualTo(double expected) {
 		doubles.assertEqual(info, actual, expected);
 		return myself;
 	}
@@ -184,7 +184,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
 	 */
-	public S isEqualTo(double expected, Offset<Double> offset) {
+	@Override public S isEqualTo(double expected, Offset<Double> offset) {
 		doubles.assertEqual(info, actual, expected, offset);
 		return myself;
 	}
@@ -196,7 +196,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to the given one.
 	 */
-	public S isNotEqualTo(double other) {
+	@Override public S isNotEqualTo(double other) {
 		doubles.assertNotEqual(info, actual, other);
 		return myself;
 	}
@@ -208,7 +208,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to or greater than the given one.
 	 */
-	public S isLessThan(double other) {
+	@Override public S isLessThan(double other) {
 		doubles.assertLessThan(info, actual, other);
 		return myself;
 	}
@@ -220,7 +220,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is greater than the given one.
 	 */
-	public S isLessThanOrEqualTo(double other) {
+	@Override public S isLessThanOrEqualTo(double other) {
 		doubles.assertLessThanOrEqualTo(info, actual, other);
 		return myself;
 	}
@@ -232,7 +232,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to or less than the given one.
 	 */
-	public S isGreaterThan(double other) {
+	@Override public S isGreaterThan(double other) {
 		doubles.assertGreaterThan(info, actual, other);
 		return myself;
 	}
@@ -244,7 +244,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is less than the given one.
 	 */
-	public S isGreaterThanOrEqualTo(double other) {
+	@Override public S isGreaterThanOrEqualTo(double other) {
 		doubles.assertGreaterThanOrEqualTo(info, actual, other);
 		return myself;
 	}

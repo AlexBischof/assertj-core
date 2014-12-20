@@ -12,18 +12,15 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Arrays.array;
-
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Callable;
-
-import net.sf.cglib.proxy.Enhancer;
 
 public abstract class AbstractSoftAssertions {
 
@@ -34,11 +31,22 @@ public abstract class AbstractSoftAssertions {
   }
 
   @SuppressWarnings("unchecked")
-  protected <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
-	Enhancer enhancer = new Enhancer();
-	enhancer.setSuperclass(assertClass);
-	enhancer.setCallback(collector);
-	return (V) enhancer.create(array(actualClass), array(actual));
+  protected <V> V jdkProxy(Class<V> interfaceClass, final Object objectToProxy) {
+
+	return (V) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass}, new InvocationHandler() {
+	  @Override public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		Object result = null;
+		try {
+		  result = method.invoke(objectToProxy, args);
+		} catch (InvocationTargetException e) {
+		  Throwable cause = e.getCause();
+		  if (cause instanceof AssertionError){
+		    collector.addThrowable(e);
+		  }
+		}
+		return result;
+	  }
+	});
   }
 
   /**
@@ -47,8 +55,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public BigDecimalAssert assertThat(BigDecimal actual) {
-	return proxy(BigDecimalAssert.class, BigDecimal.class, actual);
+  public IBigDecimalAssert assertThat(BigDecimal actual) {
+	return jdkProxy(IBigDecimalAssert.class, new BigDecimalAssert(actual));
   }
 
   // assertThat* methods duplicated from Assertions
@@ -59,8 +67,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public BooleanAssert assertThat(boolean actual) {
-	return proxy(BooleanAssert.class, Boolean.class, actual);
+  public IBooleanAssert assertThat(boolean actual) {
+	return jdkProxy(IBooleanAssert.class, new BooleanAssert(actual));
   }
 
   /**
@@ -69,8 +77,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public BooleanAssert assertThat(Boolean actual) {
-	return proxy(BooleanAssert.class, Boolean.class, actual);
+  public IBooleanAssert assertThat(Boolean actual) {
+	return jdkProxy(IBooleanAssert.class, new BooleanAssert(actual));
   }
 
   /**
@@ -79,8 +87,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public BooleanArrayAssert assertThat(boolean[] actual) {
-	return proxy(BooleanArrayAssert.class, boolean[].class, actual);
+  public IBooleanArrayAssert assertThat(boolean[] actual) {
+	return jdkProxy(IBooleanArrayAssert.class, new BooleanArrayAssert(actual));
   }
 
   /**
@@ -89,8 +97,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ByteAssert assertThat(byte actual) {
-	return proxy(ByteAssert.class, Byte.class, actual);
+  public IByteAssert assertThat(byte actual) {
+	return jdkProxy(IByteAssert.class, new ByteAssert(actual));
   }
 
   /**
@@ -99,8 +107,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ByteAssert assertThat(Byte actual) {
-	return proxy(ByteAssert.class, Byte.class, actual);
+  public IByteAssert assertThat(Byte actual) {
+	return jdkProxy(IByteAssert.class, new ByteAssert(actual));
   }
 
   /**
@@ -109,8 +117,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ByteArrayAssert assertThat(byte[] actual) {
-	return proxy(ByteArrayAssert.class, byte[].class, actual);
+  public IByteArrayAssert assertThat(byte[] actual) {
+	return jdkProxy(IByteArrayAssert.class, new ByteArrayAssert(actual));
   }
 
   /**
@@ -119,8 +127,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public CharacterAssert assertThat(char actual) {
-	return proxy(CharacterAssert.class, Character.class, actual);
+  public ICharacterAssert jdkProxy(char actual) {
+	return jdkProxy(ICharacterAssert.class, new CharacterAssert(actual));
   }
 
   /**
@@ -129,8 +137,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public CharArrayAssert assertThat(char[] actual) {
-	return proxy(CharArrayAssert.class, char[].class, actual);
+  public ICharArrayAssert assertThat(char[] actual) {
+	return jdkProxy(ICharArrayAssert.class, new CharArrayAssert(actual));
   }
 
   /**
@@ -139,8 +147,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public CharacterAssert assertThat(Character actual) {
-	return proxy(CharacterAssert.class, Character.class, actual);
+  public ICharacterAssert assertThat(Character actual) {
+	return jdkProxy(ICharacterAssert.class, new CharacterAssert(actual));
   }
 
   /**
@@ -149,8 +157,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ClassAssert assertThat(Class<?> actual) {
-	return proxy(ClassAssert.class, Class.class, actual);
+  public IClassAssert assertThat(Class<?> actual) {
+	return jdkProxy(IClassAssert.class, new ClassAssert(actual));
   }
 
   /**
@@ -160,8 +168,8 @@ public abstract class AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  public <T> IterableAssert<T> assertThat(Iterable<T> actual) {
-	return proxy(IterableAssert.class, Iterable.class, actual);
+  public <T> IIterableAssert<?,?, T> assertThat(Iterable<T> actual) {
+	return jdkProxy(IIterableAssert.class, new IterableAssert(actual));
   }
 
   /**
@@ -173,8 +181,8 @@ public abstract class AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  public <T> IterableAssert<T> assertThat(Iterator<T> actual) {
-	return proxy(IterableAssert.class, Iterator.class, actual);
+  public <T> IIterableAssert<?,?,T> assertThat(Iterator<T> actual) {
+	return jdkProxy(IIterableAssert.class, new IterableAssert(actual));
   }
 
   /**
@@ -183,8 +191,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public DoubleAssert assertThat(double actual) {
-	return proxy(DoubleAssert.class, Double.class, actual);
+  public IDoubleAssert assertThat(double actual) {
+	return jdkProxy(IDoubleAssert.class, new DoubleAssert(actual));
   }
 
   /**
@@ -193,8 +201,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public DoubleAssert assertThat(Double actual) {
-	return proxy(DoubleAssert.class, Double.class, actual);
+  public IDoubleAssert assertThat(Double actual) {
+	return jdkProxy(IDoubleAssert.class, new DoubleAssert(actual));
   }
 
   /**
@@ -203,8 +211,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public DoubleArrayAssert assertThat(double[] actual) {
-	return proxy(DoubleArrayAssert.class, double[].class, actual);
+  public IDoubleArrayAssert assertThat(double[] actual) {
+	return jdkProxy(IDoubleArrayAssert.class, new DoubleArrayAssert(actual));
   }
 
   /**
@@ -213,8 +221,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public FileAssert assertThat(File actual) {
-	return proxy(FileAssert.class, File.class, actual);
+  public IFileAssert assertThat(File actual) {
+	return jdkProxy(IFileAssert.class, new FileAssert(actual));
   }
 
   /**
@@ -223,8 +231,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public InputStreamAssert assertThat(InputStream actual) {
-	return proxy(InputStreamAssert.class, InputStream.class, actual);
+  public IInputStreamAssert assertThat(InputStream actual) {
+	return jdkProxy(IInputStreamAssert.class, new InputStreamAssert(actual));
   }
 
   /**
@@ -233,8 +241,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public FloatAssert assertThat(float actual) {
-	return proxy(FloatAssert.class, Float.class, actual);
+  public IFloatAssert assertThat(float actual) {
+	return jdkProxy(IFloatAssert.class, new FloatAssert(actual));
   }
 
   /**
@@ -243,8 +251,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public FloatAssert assertThat(Float actual) {
-	return proxy(FloatAssert.class, Float.class, actual);
+  public IFloatAssert assertThat(Float actual) {
+	return jdkProxy(IFloatAssert.class, new FloatAssert(actual));
   }
 
   /**
@@ -253,8 +261,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public FloatArrayAssert assertThat(float[] actual) {
-	return proxy(FloatArrayAssert.class, float[].class, actual);
+  public IFloatArrayAssert assertThat(float[] actual) {
+	return jdkProxy(IFloatArrayAssert.class, new FloatArrayAssert(actual));
   }
 
   /**
@@ -263,8 +271,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public IntegerAssert assertThat(int actual) {
-	return proxy(IntegerAssert.class, Integer.class, actual);
+  public IIntegerAssert assertThat(int actual) {
+	return jdkProxy(IIntegerAssert.class, new IntegerAssert(actual));
   }
 
   /**
@@ -273,8 +281,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public IntArrayAssert assertThat(int[] actual) {
-	return proxy(IntArrayAssert.class, int[].class, actual);
+  public IIntArrayAssert assertThat(int[] actual) {
+	return jdkProxy(IIntArrayAssert.class, new IntArrayAssert(actual));
   }
 
   /**
@@ -283,8 +291,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public IntegerAssert assertThat(Integer actual) {
-	return proxy(IntegerAssert.class, Integer.class, actual);
+  public IIntegerAssert assertThat(Integer actual) {
+	return jdkProxy(IIntegerAssert.class, new IntegerAssert(actual));
   }
 
   /**
@@ -294,8 +302,8 @@ public abstract class AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  public <T> ListAssert<T> assertThat(List<T> actual) {
-	return proxy(ListAssert.class, List.class, actual);
+  public <T> IListAssert<?, ?, T> assertThat(List<T> actual) {
+	return jdkProxy(IListAssert.class, new ListAssert<T>(actual));
   }
 
   /**
@@ -304,8 +312,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public LongAssert assertThat(long actual) {
-	return proxy(LongAssert.class, Long.class, actual);
+  public ILongAssert assertThat(long actual) {
+	return jdkProxy(ILongAssert.class, new LongAssert(actual));
   }
 
   /**
@@ -314,8 +322,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public LongAssert assertThat(Long actual) {
-	return proxy(LongAssert.class, Long.class, actual);
+  public ILongAssert assertThat(Long actual) {
+	return jdkProxy(ILongAssert.class, new LongAssert(actual));
   }
 
   /**
@@ -324,8 +332,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public LongArrayAssert assertThat(long[] actual) {
-	return proxy(LongArrayAssert.class, long[].class, actual);
+  public ILongArrayAssert assertThat(long[] actual) {
+	return jdkProxy(ILongArrayAssert.class, new LongArrayAssert(actual));
   }
 
   /**
@@ -335,8 +343,8 @@ public abstract class AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  public <T> ObjectAssert<T> assertThat(T actual) {
-	return proxy(ObjectAssert.class, Object.class, actual);
+  public <T> IObjectAssert<T> assertThat(T actual) {
+	return jdkProxy(IObjectAssert.class, new ObjectAssert<T>(actual));
   }
 
   /**
@@ -346,8 +354,8 @@ public abstract class AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  public <T> ObjectArrayAssert<T> assertThat(T[] actual) {
-	return proxy(ObjectArrayAssert.class, Object[].class, actual);
+  public <T> IObjectArrayAssert<T> assertThat(T[] actual) {
+	return jdkProxy(IObjectArrayAssert.class, new ObjectArrayAssert<T>(actual));
   }
 
   /**
@@ -357,8 +365,8 @@ public abstract class AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  public <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
-	return proxy(MapAssert.class, Map.class, actual);
+  public <K, V> IMapAssert<?,?,K, V> assertThat(Map<K, V> actual) {
+	return jdkProxy(IMapAssert.class, new MapAssert<K,V>(actual));
   }
 
   /**
@@ -367,8 +375,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ShortAssert assertThat(short actual) {
-	return proxy(ShortAssert.class, Short.class, actual);
+  public IShortAssert assertThat(short actual) {
+	return jdkProxy(IShortAssert.class, new ShortAssert(actual));
   }
 
   /**
@@ -377,8 +385,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ShortAssert assertThat(Short actual) {
-	return proxy(ShortAssert.class, Short.class, actual);
+  public IShortAssert assertThat(Short actual) {
+	return jdkProxy(IShortAssert.class, new ShortAssert(actual));
   }
 
   /**
@@ -387,8 +395,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ShortArrayAssert assertThat(short[] actual) {
-	return proxy(ShortArrayAssert.class, short[].class, actual);
+  public IShortArrayAssert assertThat(short[] actual) {
+	return jdkProxy(IShortArrayAssert.class, new ShortArrayAssert(actual));
   }
 
   /**
@@ -397,8 +405,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public CharSequenceAssert assertThat(CharSequence actual) {
-	return proxy(CharSequenceAssert.class, CharSequence.class, actual);
+  public ICharSequenceAssert assertThat(CharSequence actual) {
+	return jdkProxy(ICharSequenceAssert.class, new CharSequenceAssert(actual));
   }
 
   /**
@@ -407,8 +415,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public StringAssert assertThat(String actual) {
-	return proxy(StringAssert.class, String.class, actual);
+  public IStringAssert assertThat(String actual) {
+	return jdkProxy(IStringAssert.class, new StringAssert(actual));
   }
 
   /**
@@ -417,8 +425,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public DateAssert assertThat(Date actual) {
-	return proxy(DateAssert.class, Date.class, actual);
+  public IDateAssert assertThat(Date actual) {
+	return jdkProxy(IDateAssert.class, new DateAssert(actual));
   }
 
   /**
@@ -427,8 +435,8 @@ public abstract class AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
-  public ThrowableAssert assertThat(Throwable actual) {
-	return proxy(ThrowableAssert.class, Throwable.class, actual);
+  public IThrowableAssert assertThat(Throwable actual) {
+	return jdkProxy(IThrowableAssert.class, new ThrowableAssert(actual));
   }
 
   /**
@@ -436,16 +444,16 @@ public abstract class AbstractSoftAssertions {
    * {@link Callable} execution.
    * <p>
    * Example :
-   * 
+   *
    * <pre><code class='java'>
    * SoftAssertions softly = new SoftAssertions();
    * softly.assertThatExceptionThrownBy(new Callable&lt;Void&gt;()
-   * 
+   *
    *   {@literal @}Override
    *   public Void call() throws Exception {
    *     throw new Exception("something was wrong");
    *   }
-   *   
+   *
    * }).isInstanceOf(Exception.class)
    *   .hasMessage("something was wrong");
    * </code></pre>
@@ -453,7 +461,7 @@ public abstract class AbstractSoftAssertions {
    * @param callable the callable whose execution throws an exception we want to check.
    * @return the created assertion object.
    */
-  public <V> ThrowableAssert assertThatExceptionThrownBy(Callable<V> callable) {
+  public <V> IThrowableAssert assertThatExceptionThrownBy(Callable<V> callable) {
 	return assertThat(new ThrowableAssert(callable).actual);
   }
 }

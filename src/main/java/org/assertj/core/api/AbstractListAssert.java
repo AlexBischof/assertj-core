@@ -34,7 +34,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, A extends List<T>, T> extends AbstractIterableAssert<S, A, T> implements
-		IndexedObjectEnumerableAssert<S, T> {
+		IListAssert<S, A, T> {
 
 	@VisibleForTesting
 	Lists lists = Lists.instance();
@@ -70,7 +70,7 @@ public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, 
 	 * @throws AssertionError if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}
 	 *           .
 	 */
-	public S has(Condition<? super T> condition, Index index) {
+	@Override public S has(Condition<? super T> condition, Index index) {
 		lists.assertHas(info, actual, condition, index);
 		return myself;
 	}
@@ -88,7 +88,7 @@ public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, 
 	 * @throws AssertionError if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}
 	 *           .
 	 */
-	public S is(Condition<? super T> condition, Index index) {
+	@Override public S is(Condition<? super T> condition, Index index) {
 		lists.assertIs(info, actual, condition, index);
 		return myself;
 	}
@@ -113,7 +113,7 @@ public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, 
 	 * @throws AssertionError if the actual list element type does not implement {@link Comparable}.
 	 * @throws AssertionError if the actual list elements are not mutually {@link Comparable}.
 	 */
-	public S isSorted() {
+	@Override public S isSorted() {
 		lists.assertIsSorted(info, actual);
 		return myself;
 	}
@@ -131,7 +131,7 @@ public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, 
 	 * @throws NullPointerException if the given comparator is <code>null</code>.
 	 * @throws AssertionError if the actual list elements are not mutually comparable according to given Comparator.
 	 */
-	public S isSortedAccordingTo(Comparator<? super T> comparator) {
+	@Override public S isSortedAccordingTo(Comparator<? super T> comparator) {
 		lists.assertIsSortedAccordingToComparator(info, actual, comparator);
 		return myself;
 	}

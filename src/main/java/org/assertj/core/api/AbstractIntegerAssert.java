@@ -34,7 +34,8 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Nicolas François
  */
 public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> extends
-    AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
+    AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer>, IIntegerAssert<S>
+{
 
   @VisibleForTesting
   Integers integers = Integers.instance();
@@ -51,6 +52,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
+  @Override
   public S isEqualTo(int expected) {
     integers.assertEqual(info, actual, expected);
     return myself;
@@ -64,6 +66,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
+  @Override
   public S isNotEqualTo(int other) {
     integers.assertNotEqual(info, actual, other);
     return myself;
@@ -119,6 +122,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
+  @Override
   public S isLessThan(int other) {
     integers.assertLessThan(info, actual, other);
     return myself;
@@ -132,6 +136,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
+  @Override
   public S isLessThanOrEqualTo(int other) {
     integers.assertLessThanOrEqualTo(info, actual, other);
     return myself;
@@ -145,6 +150,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
+  @Override
   public S isGreaterThan(int other) {
     integers.assertGreaterThan(info, actual, other);
     return myself;
@@ -158,6 +164,7 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
+  @Override
   public S isGreaterThanOrEqualTo(int other) {
     integers.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;

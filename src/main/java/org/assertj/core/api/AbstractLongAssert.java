@@ -32,7 +32,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extends AbstractComparableAssert<S, Long> implements NumberAssert<S, Long> {
+public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extends AbstractComparableAssert<S, Long> implements ILongAssert<S> {
 
 	@VisibleForTesting
 	Longs longs = Longs.instance();
@@ -48,7 +48,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is not equal to the given one.
 	 */
-	public S isEqualTo(long expected) {
+	@Override public S isEqualTo(long expected) {
 		longs.assertEqual(info, actual, expected);
 		return myself;
 	}
@@ -60,7 +60,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to the given one.
 	 */
-	public S isNotEqualTo(long other) {
+	@Override public S isNotEqualTo(long other) {
 		longs.assertNotEqual(info, actual, other);
 		return myself;
 	}
@@ -114,7 +114,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to or greater than the given one.
 	 */
-	public S isLessThan(long other) {
+	@Override public S isLessThan(long other) {
 		longs.assertLessThan(info, actual, other);
 		return myself;
 	}
@@ -126,7 +126,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is greater than the given one.
 	 */
-	public S isLessThanOrEqualTo(long other) {
+	@Override public S isLessThanOrEqualTo(long other) {
 		longs.assertLessThanOrEqualTo(info, actual, other);
 		return myself;
 	}
@@ -138,7 +138,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to or less than the given one.
 	 */
-	public S isGreaterThan(long other) {
+	@Override public S isGreaterThan(long other) {
 		longs.assertGreaterThan(info, actual, other);
 		return myself;
 	}
@@ -150,7 +150,7 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is less than the given one.
 	 */
-	public S isGreaterThanOrEqualTo(long other) {
+	@Override public S isGreaterThanOrEqualTo(long other) {
 		longs.assertGreaterThanOrEqualTo(info, actual, other);
 		return myself;
 	}

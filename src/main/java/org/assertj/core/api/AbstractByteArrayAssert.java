@@ -20,7 +20,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<S>>
-  extends AbstractArrayAssert<S, byte[], Byte> {
+  extends AbstractArrayAssert<S, byte[], Byte> implements IByteArrayAssert<S>{
 
   @VisibleForTesting
   protected ByteArrays arrays = ByteArrays.instance();
@@ -112,6 +112,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * @throws AssertionError           if the actual array is {@code null}.
    * @throws AssertionError           if the actual array does not contain the given values.
    */
+  @Override
   public S contains(byte... values) {
     arrays.assertContains(info, actual, values);
     return myself;
@@ -144,6 +145,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    *                                  or none of the given values, or the actual array contains more values than the
    *                                  given ones.
    */
+  @Override
   public S containsOnly(byte... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
@@ -174,6 +176,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    *                                  or none of the given values, or the actual group contains more than once these
    *                                  values.
    */
+  @Override
   public S containsOnlyOnce(byte... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
@@ -203,6 +206,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
+  @Override
   public S containsSequence(byte... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
@@ -233,6 +237,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
+  @Override
   public S containsSubsequence(byte... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
@@ -264,6 +269,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    *                                   the actual array.
    * @throws AssertionError            if the actual array does not contain the given value at the given index.
    */
+  @Override
   public S contains(byte value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
@@ -291,6 +297,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * @throws AssertionError           if the actual array is {@code null}.
    * @throws AssertionError           if the actual array contains any of the given values.
    */
+  @Override
   public S doesNotContain(byte... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
@@ -320,6 +327,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError       if the actual array contains the given value at the given index.
    */
+  @Override
   public S doesNotContain(byte value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
@@ -344,6 +352,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
+  @Override
   public S doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
@@ -373,6 +382,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * @throws AssertionError           if the actual array is {@code null}.
    * @throws AssertionError           if the actual array does not start with the given sequence.
    */
+  @Override
   public S startsWith(byte... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
@@ -402,6 +412,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * @throws AssertionError           if the actual array is {@code null}.
    * @throws AssertionError           if the actual array does not end with the given sequence.
    */
+  @Override
   public S endsWith(byte... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
@@ -458,6 +469,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    *                              than the given ones
    *                              or values are the same but the order is not.
    */
+  @Override
   public S containsExactly(byte... values) {
     objects.assertEqual(info, actual, values);
     return myself;

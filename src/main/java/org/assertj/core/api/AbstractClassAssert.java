@@ -26,7 +26,7 @@ import org.assertj.core.internal.Classes;
  * @author William Delanoue
  * @author Mikhail Mazursky
  */
-public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> extends AbstractAssert<S, Class<?>> {
+public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> extends AbstractAssert<S, Class<?>> implements IClassAssert<S> {
 
   Classes classes = Classes.instance();
 
@@ -55,7 +55,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not before or equals to the given one.
    */
-  public S isAssignableFrom(Class<?>... others) {
+  @Override public S isAssignableFrom(Class<?>... others) {
     classes.assertIsAssignableFrom(info, actual, others);
     return myself;
   }
@@ -77,7 +77,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
-  public S isNotInterface() {
+  @Override public S isNotInterface() {
     classes.assertIsNotInterface(info, actual);
     return myself;
   }
@@ -99,7 +99,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
-  public S isInterface() {
+  @Override public S isInterface() {
     classes.assertIsInterface(info, actual);
     return myself;
   }
@@ -123,7 +123,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an annotation.
    */
-  public S isAnnotation() {
+  @Override public S isAnnotation() {
     classes.assertIsAnnotation(info, actual);
     return myself;
   }
@@ -146,7 +146,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is an annotation.
    */
-  public S isNotAnnotation() {
+  @Override public S isNotAnnotation() {
     classes.assertIsNotAnnotation(info, actual);
     return myself;
   }
@@ -181,7 +181,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
-  public S hasAnnotations(@SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
+  @Override public S hasAnnotations(@SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
     classes.assertContainsAnnotations(info, actual, annotations);
     return myself;
   }
@@ -207,7 +207,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
-  @SuppressWarnings("unchecked")
+  @Override @SuppressWarnings("unchecked")
   public S hasAnnotation(Class<? extends Annotation> annotation) {
     classes.assertContainsAnnotations(info, actual, annotation);
     return myself;
@@ -235,7 +235,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
    */
-  public S hasFields(String... fields) {
+  @Override public S hasFields(String... fields) {
     classes.assertHasFields(info, actual, fields);
     return myself;
   }
@@ -261,7 +261,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
    */
-  public S hasDeclaredFields(String... fields) {
+  @Override public S hasDeclaredFields(String... fields) {
     classes.assertHasDeclaredFields(info, actual, fields);
     return myself;
   }

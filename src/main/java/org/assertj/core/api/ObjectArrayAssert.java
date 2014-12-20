@@ -28,7 +28,7 @@ package org.assertj.core.api;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert<T> extends AbstractObjectArrayAssert<ObjectArrayAssert<T>, T> {
+public class ObjectArrayAssert<T> extends AbstractObjectArrayAssert<ObjectArrayAssert<T>, T> implements IObjectArrayAssert<T>{
 
   protected ObjectArrayAssert(T[] actual) {
     super(actual, ObjectArrayAssert.class);

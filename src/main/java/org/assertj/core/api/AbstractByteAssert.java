@@ -33,7 +33,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Nicolas François
  */
 public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extends AbstractComparableAssert<S, Byte>
-    implements NumberAssert<S, Byte> {
+    implements IByteAssert<S> {
 
   @VisibleForTesting
   Bytes bytes = Bytes.instance();
@@ -50,6 +50,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
+  @Override
   public S isEqualTo(byte expected) {
     bytes.assertEqual(info, actual, expected);
     return myself;
@@ -63,6 +64,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
+  @Override
   public S isNotEqualTo(byte other) {
     bytes.assertNotEqual(info, actual, other);
     return myself;
@@ -187,6 +189,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
+  @Override
   public S isLessThan(byte other) {
     bytes.assertLessThan(info, actual, other);
     return myself;
@@ -213,6 +216,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
+  @Override
   public S isLessThanOrEqualTo(byte other) {
     bytes.assertLessThanOrEqualTo(info, actual, other);
     return myself;
@@ -239,6 +243,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
+  @Override
   public S isGreaterThan(byte other) {
     bytes.assertGreaterThan(info, actual, other);
     return myself;
@@ -265,6 +270,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
+  @Override
   public S isGreaterThanOrEqualTo(byte other) {
     bytes.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;

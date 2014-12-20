@@ -33,7 +33,7 @@ import java.util.Date;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class DateAssert extends AbstractDateAssert<DateAssert> {
+public class DateAssert extends AbstractDateAssert<DateAssert> implements IDateAssert{
 
   /**
    * Creates a new {@link DateAssert}.

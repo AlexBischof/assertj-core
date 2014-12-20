@@ -31,7 +31,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> extends AbstractComparableAssert<S, Float> implements FloatingPointNumberAssert<S, Float> {
+public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> extends AbstractComparableAssert<S, Float> implements IFloatAssert<S> {
 
 	@VisibleForTesting
 	Floats floats = Floats.instance();
@@ -103,7 +103,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is not equal to the given one.
 	 */
-	public S isEqualTo(float expected) {
+	@Override public S isEqualTo(float expected) {
 		floats.assertEqual(info, actual, expected);
 		return myself;
 	}
@@ -141,7 +141,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   // duplicate javadoc of isCloseTo(Float other, Offset<Float> offset but can't define it in super class
-  public S isCloseTo(final float other, final Offset<Float> offset) {
+  @Override public S isCloseTo(final float other, final Offset<Float> offset) {
     floats.assertIsCloseTo(info, actual, other, offset);
     return myself;
   }
@@ -252,7 +252,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is not equal to the given one.
 	 */
-	public S isEqualTo(float expected, Offset<Float> offset) {
+	@Override public S isEqualTo(float expected, Offset<Float> offset) {
 		floats.assertEqual(info, actual, expected, offset);
 		return myself;
 	}
@@ -264,7 +264,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to the given one.
 	 */
-	public S isNotEqualTo(float other) {
+	@Override public S isNotEqualTo(float other) {
 		floats.assertNotEqual(info, actual, other);
 		return myself;
 	}
@@ -276,7 +276,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to or greater than the given one.
 	 */
-	public S isLessThan(float other) {
+	@Override public S isLessThan(float other) {
 		floats.assertLessThan(info, actual, other);
 		return myself;
 	}
@@ -288,7 +288,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is greater than the given one.
 	 */
-	public S isLessThanOrEqualTo(float other) {
+	@Override public S isLessThanOrEqualTo(float other) {
 		floats.assertLessThanOrEqualTo(info, actual, other);
 		return myself;
 	}
@@ -300,7 +300,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is equal to or less than the given one.
 	 */
-	public S isGreaterThan(float other) {
+	@Override public S isGreaterThan(float other) {
 		floats.assertGreaterThan(info, actual, other);
 		return myself;
 	}
@@ -312,7 +312,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 	 * @throws AssertionError if the actual value is {@code null}.
 	 * @throws AssertionError if the actual value is less than the given one.
 	 */
-	public S isGreaterThanOrEqualTo(float other) {
+	@Override public S isGreaterThanOrEqualTo(float other) {
 		floats.assertGreaterThanOrEqualTo(info, actual, other);
 		return myself;
 	}

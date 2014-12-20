@@ -20,7 +20,7 @@ import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAssert<S>>
-  extends AbstractArrayAssert<S, double[], Double> {
+  extends AbstractArrayAssert<S, double[], Double> implements IDoubleArrayAssert<S> {
 
   @VisibleForTesting
   protected DoubleArrays arrays = DoubleArrays.instance();
@@ -112,7 +112,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(double... values) {
+  @Override public S contains(double... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -142,7 +142,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(double... values) {
+  @Override public S containsOnly(double... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -170,7 +170,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  public S containsOnlyOnce(double... values) {
+  @Override public S containsOnlyOnce(double... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -199,7 +199,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(double... sequence) {
+  @Override public S containsSequence(double... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -228,7 +228,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(double... subsequence) {
+  @Override public S containsSubsequence(double... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -258,7 +258,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(double value, Index index) {
+  @Override public S contains(double value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
@@ -286,7 +286,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(double... values) {
+  @Override public S doesNotContain(double... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -315,7 +315,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(double value, Index index) {
+  @Override public S doesNotContain(double value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
@@ -339,7 +339,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates() {
+  @Override public S doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
@@ -368,7 +368,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public S startsWith(double... sequence) {
+  @Override public S startsWith(double... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -397,7 +397,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(double... sequence) {
+  @Override public S endsWith(double... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
@@ -451,7 +451,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  public S containsExactly(double... values) {
+  @Override public S containsExactly(double... values) {
     objects.assertEqual(info, actual, values);
     return myself;
   }

@@ -20,7 +20,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<S>>
-  extends AbstractArrayAssert<S, char[], Character> {
+  extends AbstractArrayAssert<S, char[], Character> implements ICharArrayAssert<S>{
 
   @VisibleForTesting
   protected CharArrays arrays = CharArrays.instance();
@@ -116,7 +116,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(char... values) {
+  @Override public S contains(char... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -146,7 +146,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(char... values) {
+  @Override public S containsOnly(char... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -174,7 +174,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  public S containsOnlyOnce(char... values) {
+  @Override public S containsOnlyOnce(char... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -203,7 +203,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(char... sequence) {
+  @Override public S containsSequence(char... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -233,7 +233,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(char... subsequence) {
+  @Override public S containsSubsequence(char... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -264,7 +264,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(char value, Index index) {
+  @Override public S contains(char value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
@@ -291,7 +291,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(char... values) {
+  @Override public S doesNotContain(char... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -320,7 +320,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(char value, Index index) {
+  @Override public S doesNotContain(char value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
@@ -344,7 +344,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates() {
+  @Override public S doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
@@ -373,7 +373,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public S startsWith(char... sequence) {
+  @Override public S startsWith(char... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -402,7 +402,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(char... sequence) {
+  @Override public S endsWith(char... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
@@ -456,7 +456,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  public S containsExactly(char... values) {
+  @Override public S containsExactly(char... values) {
     objects.assertEqual(info, actual, values);
     return myself;
   }
@@ -484,7 +484,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    *
    * @return {@code this} assertion object.
    */
-  public S inUnicode() {
+  @Override public S inUnicode() {
     info.useUnicodeRepresentation();
     return myself;
   }

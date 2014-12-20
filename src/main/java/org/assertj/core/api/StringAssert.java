@@ -23,7 +23,7 @@ package org.assertj.core.api;
  * 
  * @author Mikhail Mazursky
  */
-public class StringAssert extends AbstractCharSequenceAssert<StringAssert, String> {
+public class StringAssert extends AbstractCharSequenceAssert<StringAssert, String> implements IStringAssert{
 
   protected StringAssert(String actual) {
     super(actual, StringAssert.class);

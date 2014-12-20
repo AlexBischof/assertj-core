@@ -20,7 +20,7 @@ import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAssert<S>>
-  extends AbstractArrayAssert<S, float[], Float> {
+  extends AbstractArrayAssert<S, float[], Float> implements IFloatArrayAssert<S> {
 
   @VisibleForTesting
   protected FloatArrays arrays = FloatArrays.instance();
@@ -72,7 +72,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public S contains(float... values) {
+  @Override public S contains(float... values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -88,7 +88,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
-  public S containsOnly(float... values) {
+  @Override public S containsOnly(float... values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -116,7 +116,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  public S containsOnlyOnce(float... values) {
+  @Override public S containsOnlyOnce(float... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -143,7 +143,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public S containsSequence(float... sequence) {
+  @Override public S containsSequence(float... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -170,7 +170,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
-  public S containsSubsequence(float... subsequence) {
+  @Override public S containsSubsequence(float... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -186,7 +186,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public S contains(float value, Index index) {
+  @Override public S contains(float value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;
   }
@@ -201,7 +201,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
    */
-  public S doesNotContain(float... values) {
+  @Override public S doesNotContain(float... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -216,7 +216,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public S doesNotContain(float value, Index index) {
+  @Override public S doesNotContain(float value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
@@ -228,7 +228,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public S doesNotHaveDuplicates() {
+  @Override public S doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
@@ -245,7 +245,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public S startsWith(float... sequence) {
+  @Override public S startsWith(float... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -262,7 +262,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public S endsWith(float... sequence) {
+  @Override public S endsWith(float... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return myself;
   }
@@ -318,7 +318,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  public S containsExactly(float... values) {
+  @Override public S containsExactly(float... values) {
     objects.assertEqual(info, actual, values);
     return myself;
   }

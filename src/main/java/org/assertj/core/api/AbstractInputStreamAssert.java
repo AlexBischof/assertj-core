@@ -29,7 +29,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Matthieu Baechler
  * @author Mikhail Mazursky
  */
-public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAssert<S, A>, A extends InputStream> extends AbstractAssert<S, A> {
+public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAssert<S, A>, A extends InputStream> extends AbstractAssert<S, A> implements IInputStreamAssert<S,A>{
 
 	@VisibleForTesting
 	InputStreams inputStreams = InputStreams.instance();
@@ -48,7 +48,7 @@ public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAss
 	 * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
 	 * @throws InputStreamsException if an I/O error occurs.
 	 */
-	public S hasContentEqualTo(InputStream expected) {
+	@Override public S hasContentEqualTo(InputStream expected) {
 		inputStreams.assertEqualContent(info, actual, expected);
 		return myself;
 	}
