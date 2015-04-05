@@ -33,29 +33,29 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * Note that the given {@link Iterable} or array is not modified, the filters are performed on a copy.
  * <p>
  * With {@link Condition} :
- * 
+ *
  * <pre><code class='java'>
- * List&lt;Player&gt; players = ...; 
- *   
+ * List&lt;Player&gt; players = ...;
+ *
  * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
  *   public boolean matches(Player player) {
  *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
  *   };
  * };
- * 
+ *
  * // use filter static method to build Filters
  * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose)
  * </code></pre>
- * 
+ *
  * With pseudo filter language on element properties :
- * 
+ *
  * <pre><code class='java'>
  * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
  *                           .and("assistsPerGame").greaterThan(7)
  *                           .get()).containsOnly(james, rose);</code></pre>
- * 
+ *
  * @param <E> the type of element of group to filter.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
@@ -81,27 +81,27 @@ public class Filters<E> {
    * Note that the given {@link Iterable} is not modified, the filters are performed on a copy.
    * <p>
    * - With {@link Condition} :
-   * 
+   *
    * <pre><code class='java'>
-   * List&lt;Player&gt; players = ...; 
-   *   
+   * List&lt;Player&gt; players = ...;
+   *
    * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
    *   public boolean matches(Player player) {
    *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
    *   };
    * };
-   * 
+   *
    * // use filter static method to build Filters
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose)
    * </code></pre>
-   * 
+   *
    * - With pseudo filter language on element properties :
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
    *                           .and("assistsPerGame").greaterThan(7).get())
    *                           .containsOnly(james, rose);</code></pre>
-   * 
+   *
    * @param iterable the {@code Iterable} to filter.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @return the created <code>{@link Filters}</code>.
@@ -119,22 +119,22 @@ public class Filters<E> {
    * Note that the given array is not modified, the filters are performed on an {@link Iterable} copy of the array.
    * <p>
    * With {@link Condition} :
-   * 
+   *
    * <pre><code class='java'>
-   * List&lt;Player&gt; players = ...; 
-   *   
+   * List&lt;Player&gt; players = ...;
+   *
    * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
    *   public boolean matches(Player player) {
    *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
    *   };
    * };
-   * 
+   *
    * // use filter static method to build Filters
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);
    * </code></pre>
-   * 
+   *
    * With pseudo filter language on element properties :
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
    *                           .and("assistsPerGame").greaterThan(7)
@@ -167,19 +167,19 @@ public class Filters<E> {
   /**
    * Filter the underlying group, keeping only elements satisfying the given {@link Condition}.<br>
    * Same as {@link #having(Condition)} - pick the method you prefer to have the most readable code.
-   * 
+   *
    * <pre><code class='java'>
-   * List&lt;Player&gt; players = ...; 
-   *   
+   * List&lt;Player&gt; players = ...;
+   *
    * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP") {
    *   public boolean matches(Player player) {
    *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
    *   };
    * };
-   * 
+   *
    * // use filter static method to build Filters
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
-   * 
+   *
    * @param condition the filter {@link Condition}.
    * @return this {@link Filters} to chain other filter operations.
    * @throws NullPointerException if the given condition is {@code null}.
@@ -192,19 +192,19 @@ public class Filters<E> {
   /**
    * Filter the underlying group, keeping only elements satisfying the given {@link Condition}.<br>
    * Same as {@link #being(Condition)} - pick the method you prefer to have the most readable code.
-   * 
+   *
    * <pre><code class='java'>
-   * List&lt;Player&gt; players = ...; 
-   *   
+   * List&lt;Player&gt; players = ...;
+   *
    * Condition&lt;Player&gt; mvpStats = new Condition&lt;Player&gt;("is a possible MVP") {
    *   public boolean matches(Player player) {
    *     return player.getPointsPerGame() > 20 && player.getAssistsPerGame() > 7;
    *   };
    * };
-   * 
+   *
    * // use filter static method to build Filters
    * assertThat(filter(players).having(mvpStats).get()).containsOnly(james, rose);</code></pre>
-   * 
+   *
    * @param condition the filter {@link Condition}.
    * @return this {@link Filters} to chain other filter operations.
    * @throws NullPointerException if the given condition is {@code null}.
@@ -229,16 +229,16 @@ public class Filters<E> {
    * Filter the underlying group, keeping only elements with a property equals to given value.
    * <p>
    * Let's, for example, filter Employees with name "Alex" :
-   * 
+   *
    * <pre><code class='java'>
    * filter(employees).with("name", "Alex").get();
    * </code></pre>
    * which is shortcut of :
-   * 
+   *
    * <pre><code class='java'>
    * filter(employees).with("name").equalsTo("Alex").get();
    * </code></pre>
-   * 
+   *
    * @param propertyName the name of the property whose value will compared to given value. It may be a nested property.
    * @param propertyValue the expected property value.
    * @return this {@link Filters} to chain other filter operations.
@@ -255,11 +255,11 @@ public class Filters<E> {
    * Sets the name of the property used for filtering, it may be a nested property like <code>"adress.street.name"</code>.
    * <p>
    * The typical usage is to chain this call with a comparison method, for example :
-   * 
+   *
    * <pre><code class='java'>
    * filter(employees).with("name").equalsTo("Alex").get();
    * </code></pre>
-   * 
+   *
    * @param propertyName the name of the property used for filtering. It may be a nested property.
    * @return this {@link Filters} to chain other filter operation.
    * @throws NullPointerException if the given propertyName is {@code null}.
@@ -272,11 +272,11 @@ public class Filters<E> {
 
   /**
    * Alias of {@link #with(String)} for synthetic sugar to write things like :.
-   * 
+   *
    * <pre><code class='java'>
    * filter(employees).with("name").equalsTo("Alex").and("job").notEqualsTo("lawyer").get();
    * </code></pre>
-   * 
+   *
    * @param propertyName the name of the property used for filtering. It may be a nested property.
    * @return this {@link Filters} to chain other filter operation.
    * @throws NullPointerException if the given propertyName is {@code null}.
@@ -290,11 +290,11 @@ public class Filters<E> {
    * value.
    * <p>
    * Typical usage :
-   * 
+   *
    * <pre><code class='java'>
    * filter(employees).with("name").equalsTo("Luke").get();
    * </code></pre>
-   * 
+   *
    * @param propertyValue the filter value.
    * @return this {@link Filters} to chain other filter operation.
    * @throws NullPointerException if the property name to filter on has not been set.
@@ -305,7 +305,8 @@ public class Filters<E> {
     for (E element : filteredIterable) {
       // As we don't know the propertyValue class, we use Object.class
       Class<?> propertyValueClass = propertyValue == null ? Object.class : propertyValue.getClass();
-      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValueClass, element);
+      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValueClass,
+                                                                             element);
       if (areEqual(propertyValueOfCurrentElement, propertyValue)) {
         newFilteredIterable.add(element);
       }
@@ -319,22 +320,26 @@ public class Filters<E> {
    * value.
    * <p>
    * Typical usage :
-   * 
+   *
    * <pre><code class='java'>
    * filter(employees).with("name").notEqualsTo("Vader").get();
    * </code></pre>
-   * 
+   *
    * @param propertyValue the filter value.
    * @return this {@link Filters} to chain other filter operation.
    * @throws NullPointerException if the property name to filter on has not been set.
    */
   public Filters<E> notEqualsTo(Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
+
+    Not not = new Not(propertyValue);
+
     List<E> newFilteredIterable = new ArrayList<>();
     for (E element : filteredIterable) {
-      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValue.getClass(),
-          element);
-      if (!areEqual(propertyValueOfCurrentElement, propertyValue)) {
+      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn,
+                                                                             propertyValue.getClass(),
+                                                                             element);
+      if (not.filter(propertyValueOfCurrentElement)) {
         newFilteredIterable.add(element);
       }
     }
@@ -352,22 +357,25 @@ public class Filters<E> {
    * given values.
    * <p>
    * Typical usage :
-   * 
+   *
    * <pre><code class='java'>
    * filter(players).with("team").in("Bulls", "Lakers").get();
    * </code></pre>
-   * 
+   *
    * @param propertyValues the filter values.
    * @return this {@link Filters} to chain other filter operation.
    * @throws NullPointerException if the property name to filter on has not been set.
    */
   public Filters<E> in(Object... propertyValues) {
     checkPropertyNameToFilterOnIsNotNull();
+
+    In in = new In(propertyValues);
+
     List<E> newFilteredIterable = new ArrayList<>();
     for (E element : filteredIterable) {
       Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValues.getClass()
           .getComponentType(), element);
-      if (isItemInArray(propertyValueOfCurrentElement, propertyValues)) {
+      if (in.filter(propertyValueOfCurrentElement)) {
         newFilteredIterable.add(element);
       }
     }
@@ -380,22 +388,25 @@ public class Filters<E> {
    * values.
    * <p>
    * Typical usage :
-   * 
+   *
    * <pre><code class='java'>
    * filter(players).with("team").notIn("Heat", "Lakers").get();
    * </code></pre>
-   * 
+   *
    * @param propertyValues the filter values.
    * @return this {@link Filters} to chain other filter operation.
    * @throws NullPointerException if the property name to filter on has not been set.
    */
   public Filters<E> notIn(Object... propertyValues) {
     checkPropertyNameToFilterOnIsNotNull();
+
+    NotIn notIn = new NotIn(propertyValues);
+
     List<E> newFilteredIterable = new ArrayList<>();
     for (E element : filteredIterable) {
       Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValues.getClass()
           .getComponentType(), element);
-      if (!isItemInArray(propertyValueOfCurrentElement, propertyValues)) {
+      if (notIn.filter(propertyValueOfCurrentElement)) {
         newFilteredIterable.add(element);
       }
     }
@@ -423,4 +434,66 @@ public class Filters<E> {
     return filteredIterable;
   }
 
+  public static class NotIn extends FilterOperation<Object[]> {
+
+      private NotIn(Object... propertyValue) {
+          super(propertyValue);
+      }
+
+      public static NotIn notIn(Object... propertyValues) {
+          return new NotIn(propertyValues);
+      }
+
+      @Override
+      public boolean filter(Object propertyValueOfCurrentElement) {
+          return !isItemInArray(propertyValueOfCurrentElement, propertyValue);
+      }
+
+      @Override
+      public <A> Filters<A> apply(Filters<A> filters){
+          return filters.notIn(propertyValue);
+      }
+  }
+
+  public static class In extends FilterOperation<Object[]> {
+
+      private In(Object... propertyValue) {
+          super(propertyValue);
+      }
+
+      public static In in(Object... propertyValues) {
+          return new In(propertyValues);
+      }
+
+      @Override
+      boolean filter(Object propertyValueOfCurrentElement) {
+          return isItemInArray(propertyValueOfCurrentElement, propertyValue);
+      }
+
+      @Override
+      public <A> Filters<A> apply(Filters<A> filters){
+          return filters.in(propertyValue);
+      }
+  }
+
+  public static class Not extends FilterOperation<Object> {
+
+      private Not(Object propertyValue) {
+         super(propertyValue);
+      }
+
+      public static Not not(Object propertyValue) {
+          return new Not(propertyValue);
+      }
+
+      @Override
+      boolean filter(Object propertyValueOfCurrentElement) {
+          return !areEqual(propertyValueOfCurrentElement, propertyValue);
+      }
+
+      @Override
+      public <A> Filters<A> apply(Filters<A> filters){
+          return filters.notEqualsTo(propertyValue);
+      }
+  }
 }
