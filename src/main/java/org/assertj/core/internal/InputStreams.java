@@ -16,8 +16,12 @@ import static java.lang.String.format;
 
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
@@ -72,6 +76,37 @@ public class InputStreams {
       throw new InputStreamsException(msg, e);
     }
   }
+
+    /**
+     * Asserts that the given InputStreams have same content.
+     *
+     * @param info contains information about the assertion.
+     * @param actual the "actual" InputStream.
+     * @param expected the "expected" InputStream.
+     * @throws NullPointerException if {@code expected} is {@code null}.
+     * @throws AssertionError if {@code actual} is {@code null}.
+     * @throws AssertionError if the given InputStreams do not have same content.
+     * @throws InputStreamsException if an I/O error occurs.
+     */
+    public void assertLightSameContentAs(AssertionInfo info, InputStream actual, InputStream expected) {
+        if (expected == null) throw new NullPointerException("The InputStream to compare to should not be null");
+        assertNotNull(info, actual);
+        try {
+            ByteBuffer actualByteBuffer = byteBufferFor(actual);
+            ByteBuffer expectedByteBuffer = byteBufferFor(expected);
+            if (!actualByteBuffer.equals(expectedByteBuffer))
+                throw failures.failure(info, shouldHaveSameContent(actual, expected, Collections.EMPTY_LIST));
+        } catch (IOException e) {
+            String msg = format("Unable to compare contents of InputStreams:%n  <%s>%nand:%n  <%s>", actual, expected);
+            throw new InputStreamsException(msg, e);
+        }
+    }
+
+    private static ByteBuffer byteBufferFor(InputStream inputStream) throws IOException {
+        FileInputStream fis = (FileInputStream) inputStream;
+        FileChannel channel = fis.getChannel();
+        return channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+    }
 
   private static void assertNotNull(AssertionInfo info, InputStream stream) {
     Objects.instance().assertNotNull(info, stream);
