@@ -178,7 +178,7 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} does not contain the given entries.
    */
   public <K, V> void assertContains(AssertionInfo info, Map<K, V> actual, MapEntry<? extends K, ? extends V>[] entries) {
-    failIfNull(entries);
+    Maps.<K, V>failIfNull(entries);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
     if (actual.isEmpty() && entries.length == 0)
@@ -375,7 +375,7 @@ public class Maps {
     if (actual.isEmpty() && entries.length == 0) {
       return;
     }
-    failIfEmpty(entries);
+    Maps.<K, V>failIfEmpty(entries);
 
     Set<MapEntry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     Set<MapEntry<? extends K, ? extends V>> notExpected = new LinkedHashSet<>();
@@ -405,7 +405,7 @@ public class Maps {
                                            @SuppressWarnings("unchecked") MapEntry<? extends K, ? extends V>... entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
-    failIfEmpty(entries);
+    Maps.<K, V>failIfEmpty(entries);
     assertHasSameSizeAs(info, actual, entries);
 
     Set<MapEntry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
@@ -472,7 +472,7 @@ public class Maps {
   private <K, V> void doCommonContainsCheck(AssertionInfo info, Map<K, V> actual,
                                             MapEntry<? extends K, ? extends V>[] entries) {
     assertNotNull(info, actual);
-    failIfNull(entries);
+    Maps.<K, V>failIfNull(entries);
   }
 
   private static <K, V> Map<K, V> entriesToMap(MapEntry<? extends K, ? extends V>[] entries) {
@@ -493,8 +493,8 @@ public class Maps {
   }
 
   private static <K, V> void failIfNullOrEmpty(MapEntry<? extends K, ? extends V>[] entries) {
-    failIfNull(entries);
-    failIfEmpty(entries);
+    Maps.<K, V>failIfNull(entries);
+    Maps.<K, V>failIfEmpty(entries);
   }
 
   private static <K> void failIfNull(K[] keys) {
