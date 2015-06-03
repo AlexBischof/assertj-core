@@ -33,7 +33,7 @@ public class AllOf<T> extends Join<T> {
    */
   @SafeVarargs
   public static <T> Condition<T> allOf(Condition<? super T>... conditions) {
-    return new AllOf<>(conditions);
+    return new AllOf<T>(conditions);
   }
 
   /**

@@ -107,7 +107,7 @@ public interface WithAssertions {
    * Delegate call to {@link org.assertj.core.api.Assertions#allOf(Condition[])}
    */
   default public <T> Condition<T> allOf(@SuppressWarnings("unchecked") final Condition<? super T>... conditions) {
-    return Assertions.allOf(conditions);
+    return Assertions.<T>allOf(conditions);
   }
 
   /**
@@ -453,7 +453,7 @@ public interface WithAssertions {
    * Delegate call to {@link org.assertj.core.api.Assertions#anyOf(Condition[])}
    */
   default public <T> Condition<T> anyOf(@SuppressWarnings("unchecked") final Condition<? super T>... conditions) {
-    return Assertions.anyOf(conditions);
+    return Assertions.<T>anyOf(conditions);
   }
 
   /**

@@ -39,7 +39,7 @@ public class Iterable_generics_with_varargs_Test {
 
   @Test
   public void testListAssertWithGenerics() throws Exception {
-	List<? extends String> strings = asList("a", "b", "c");
+	List<String> strings = asList("a", "b", "c");
 	assertThat(strings).contains("a", "b");
   }
 }

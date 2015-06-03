@@ -40,7 +40,8 @@ public class Assertions_assertThat_with_Iterator_Test {
   @Test
   public void should_initialise_actual() {
     Iterator<String> names = asList("Luke", "Leia").iterator();
-    assertThat(assertThat(names).actual).containsOnly("Leia", "Luke");
+      Iterable<String> actual = (Iterable<String>) assertThat(names).actual;
+      assertThat(actual).containsOnly("Leia", "Luke");
   }
 
   @Test

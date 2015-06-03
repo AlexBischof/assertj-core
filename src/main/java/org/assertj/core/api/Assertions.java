@@ -1045,7 +1045,7 @@ public class Assertions {
    */
   @SafeVarargs
   public static <T> Condition<T> allOf(Condition<? super T>... conditions) {
-    return AllOf.allOf(conditions);
+    return AllOf.<T>allOf(conditions);
   }
 
   /**
@@ -1058,7 +1058,7 @@ public class Assertions {
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
   public static <T> Condition<T> allOf(Iterable<? extends Condition<? super T>> conditions) {
-    return AllOf.allOf(conditions);
+    return AllOf.<T>allOf(conditions);
   }
 
   /**
@@ -1074,7 +1074,7 @@ public class Assertions {
    */
   @SafeVarargs
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
-    return AnyOf.anyOf(conditions);
+    return AnyOf.<T>anyOf(conditions);
   }
 
   /**
@@ -1087,7 +1087,7 @@ public class Assertions {
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
-    return AnyOf.anyOf(conditions);
+    return AnyOf.<T>anyOf(conditions);
   }
 
   /**

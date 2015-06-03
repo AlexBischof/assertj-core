@@ -183,7 +183,7 @@ public class Maps {
     // if both actual and values are empty, then assertion passes.
     if (actual.isEmpty() && entries.length == 0)
       return;
-    failIfEmptySinceActualIsNotEmpty(entries);
+    this.<K, V>failIfEmptySinceActualIsNotEmpty(entries);
     Set<MapEntry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     for (MapEntry<? extends K, ? extends V> entry : entries) {
       if (!containsEntry(actual, entry)) {
@@ -208,7 +208,7 @@ public class Maps {
    */
   public <K, V> void assertDoesNotContain(AssertionInfo info, Map<K, V> actual,
                                           MapEntry<? extends K, ? extends V>[] entries) {
-    failIfNullOrEmpty(entries);
+    this.<K, V>failIfNullOrEmpty(entries);
     assertNotNull(info, actual);
     Set<MapEntry<? extends K, ? extends V>> found = new LinkedHashSet<>();
     for (MapEntry<? extends K, ? extends V> entry : entries) {
@@ -452,7 +452,7 @@ public class Maps {
                                                          MapEntry<? extends K, ? extends V>[] entries,
                                                          Set<MapEntry<? extends K, ? extends V>> notExpected,
                                                          Set<MapEntry<? extends K, ? extends V>> notFound) {
-    Map<K, V> expectedEntries = entriesToMap(entries);
+    Map<K, V> expectedEntries = this.<K, V>entriesToMap(entries);
     Map<K, V> actualEntries = new LinkedHashMap<>(actual);
     for (Map.Entry<K, V> entry : expectedEntries.entrySet()) {
       if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
